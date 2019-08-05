@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ProductCategoryRepository extends JpaRepository<ProductCategory, Integer> {
     List<ProductCategory> findByCategoryTypeIn(List<Integer> categoryTypeList);
 
+    ProductCategory findOne(Integer categoryId);
 }
