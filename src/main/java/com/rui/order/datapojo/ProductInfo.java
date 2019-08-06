@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Data
@@ -36,4 +37,9 @@ public class ProductInfo {
     /** 类目编号*/
     @Column(name = "category_type")
     private Integer categoryType;
+//    private Date createTime;
+//    private Date updateTime;
+
+    public ProductInfo() {
+    }
 }
