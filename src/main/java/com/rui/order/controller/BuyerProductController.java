@@ -1,8 +1,8 @@
 package com.rui.order.controller;
 
-import com.rui.order.VO.ProductInfoVO;
-import com.rui.order.VO.ProductVO;
-import com.rui.order.VO.ResultVO;
+import com.rui.order.vo.ProductInfoVO;
+import com.rui.order.vo.ProductVO;
+import com.rui.order.vo.ResultVO;
 import com.rui.order.datapojo.ProductCategory;
 import com.rui.order.datapojo.ProductInfo;
 import com.rui.order.service.CategoryService;
@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

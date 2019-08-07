@@ -28,6 +28,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,11 +66,13 @@ public class OrderServiceImpl implements OrderService {
         }
         //3.写入订单数据库orderMaster
         OrderMaster orderMaster = new OrderMaster();
+        orderDTO.setOrderId(orderId);
         BeanUtils.copyProperties(orderDTO, orderMaster);
-        orderMaster.setOrderId(orderId);
         orderMaster.setOrderAmount(orderAmount);
         orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
         orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
+        orderMaster.setCreateTime(new Date());
+        orderMaster.setUpdateTime(new Date());
         orderMasterRepository.save(orderMaster);
         //4.扣库存
         List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()

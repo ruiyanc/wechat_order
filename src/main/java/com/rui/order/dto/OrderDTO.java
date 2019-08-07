@@ -1,8 +1,11 @@
 package com.rui.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rui.order.datapojo.OrderDetail;
 import com.rui.order.enums.OrderStatusEnum;
 import com.rui.order.enums.PayStatusEnum;
+import com.rui.order.utils.serializer.Date2LongSerializer;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -10,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDTO {
     /**订单id*/
     private String orderId;
@@ -28,8 +32,10 @@ public class OrderDTO {
     /** 支付状态,默认为0未支付*/
     private Integer payStatus;
     /**创建时间*/
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
     /**更新时间*/
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 
     List<OrderDetail> orderDetailList;

@@ -1,4 +1,4 @@
-package com.rui.order.VO;
+package com.rui.order.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

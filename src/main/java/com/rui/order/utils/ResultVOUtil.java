@@ -1,6 +1,6 @@
 package com.rui.order.utils;
 
-import com.rui.order.VO.ResultVO;
+import com.rui.order.vo.ResultVO;
 
 public class ResultVOUtil {
     public static ResultVO success(Object object) {
