@@ -1,3 +1,7 @@
 wechat:
-  mpAppId: wxd898fcb01713c658
-  mpAppSecret: 29d8a650db31472aa87800e3b0d739f2
+  mpAppId: wx14b77de8da68c7eb
+  mpAppSecret: bf95549de667f48a90235386cc1c5114
+  mchId: 00000000
+  mchKey: 85w15dw5111w5da1wd5
+  keyPath: /var/weixin_cert/.
+  notifyUrl: http://yanrui.mynatapp.cc/pay/notify

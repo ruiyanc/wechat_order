@@ -13,6 +13,7 @@ import com.rui.order.exception.SellException;
 import com.rui.order.repository.OrderDetailRepository;
 import com.rui.order.repository.OrderMasterRepository;
 import com.rui.order.service.OrderService;
+import com.rui.order.service.PayService;
 import com.rui.order.service.ProductService;
 import com.rui.order.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderDetailRepository orderDetailRepository;
     @Autowired
     private OrderMasterRepository orderMasterRepository;
+    @Autowired
+    private PayService payService;
 
     @Override
     @Transactional
@@ -135,7 +138,7 @@ public class OrderServiceImpl implements OrderService {
         productService.increaseStock(cartDTOList);
         //已支付需要退款
         if (orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
-            //TODO
+            payService.refund(orderDTO);
         }
         return orderDTO;
     }
