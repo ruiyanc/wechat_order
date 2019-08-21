@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/buyer/order")
@@ -40,7 +41,7 @@ public class BuyerOrderController {
         if (bindingResult.hasErrors()) {
             log.error("[创建订单]参数不正确,orderForm={}", orderForm);
             throw new SellException(ResultEnum.PARAM_ERROR.getCode(),
-                    bindingResult.getFieldError().getDefaultMessage());
+                    Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         OrderDTO orderDTO = OrderForm2OrderDTOConverter.convert(orderForm);
         if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {

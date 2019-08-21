@@ -3,9 +3,9 @@ package com.rui.order.enums;
 import lombok.Getter;
 
 @Getter
-public enum OrderStatusEnum {
+public enum OrderStatusEnum implements CodeEnum{
     /*买家状态*/
-    NEW(0,"新订单"), FINISHED(1,"完结"), CANCEL(2,"已取消"),;
+    NEW(0,"新订单"), FINISHED(1,"已完结"), CANCEL(2,"已取消"),;
     private Integer code;
     private String message;
 
@@ -13,4 +13,5 @@ public enum OrderStatusEnum {
         this.code = code;
         this.message = message;
     }
+
 }

@@ -1,10 +1,12 @@
 package com.rui.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rui.order.datapojo.OrderDetail;
 import com.rui.order.enums.OrderStatusEnum;
 import com.rui.order.enums.PayStatusEnum;
+import com.rui.order.utils.EnumUtil;
 import com.rui.order.utils.serializer.Date2LongSerializer;
 import lombok.Data;
 
@@ -39,4 +41,14 @@ public class OrderDTO {
     private Date updateTime;
 
     List<OrderDetail> orderDetailList;
+
+    @JsonIgnore
+    public OrderStatusEnum getOrderStatusEnum() {
+        return EnumUtil.getByCode(orderStatus, OrderStatusEnum.class);
+    }
+
+    @JsonIgnore
+    public PayStatusEnum getPayStatusEnum() {
+        return EnumUtil.getByCode(payStatus, PayStatusEnum.class);
+    }
 }
