@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/nav::commonHeader('卖家商品列表')">
+    <title></title>
+</head>
+<body>
+<div id="wrapper" class="toggled" >
+    <!--    边栏sidebar-->
+    <th:block th:include="common/nav::commonNav">
+    </th:block>
+    <!--    主要内容content-->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 column">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>商品id</th>
+                            <th>名称</th>
+                            <th>图片</th>
+                            <th>单价</th>
+                            <th>库存</th>
+                            <th>描述</th>
+                            <th>类目</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                            <th colspan="2">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--/*@thymesVar id="productInfoPage" type="templates"*/-->
+                        <tr th:each="productInfo : ${productInfoPage}">
+                            <td th:text="${productInfo.productId}"></td>
+                            <td th:text="${productInfo.productName}"></td>
+                            <td ><img src="" width="100" height="100" alt="显示错误" th:src="${productInfo.productIcon}"></td>
+                            <td th:text="${productInfo.productPrice}"></td>
+                            <td th:text="${productInfo.productStock}"></td>
+                            <td th:text="${productInfo.productDescription}"></td>
+                            <td th:text="${productInfo.categoryType}"></td>
+                            <td th:text="${productInfo.createTime}"></td>
+                            <td th:text="${productInfo.updateTime}"></td>
+                            <td><a href="#" th:href="@{/seller/product/index(productId=${productInfo.productId})}">修改</a></td>
+                            <!--/*@thymesVar id="getProductStatusEnum" type="com.rui.order.datapojo.ProductInfo"*/-->
+                            <td th:if="${productInfo.getProductStatusEnum().message}=='在架'">
+                                <a th:href="@{/seller/product/off_sale(productId=${productInfo.productId})}">下架</a>
+                            </td>
+                            <td th:if="${productInfo.getProductStatusEnum().message}!='在架'">
+                                <a th:href="@{/seller/product/on_sale(productId=${productInfo.productId})}">上架</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example">
+                        <!--                ${orderDTOPage.getTotalPages()}-->
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:if="${currentPage<=1}">
+                                <a class="page-link disabled" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:if="${currentPage > 1}">
+                                <!--/*@thymesVar id="currentPage" type="com"*/-->
+                                <a class="page-link" aria-label="Previous" th:href="@{/seller/product/list(page=${currentPage} - 1,size=${size})}">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <!--/*@thymesVar id="productInfoPage" type="com.rui.order.datapojo.ProductInfo"*/-->
+                            <th:block th:each="index : ${#numbers.sequence(1, productInfoPage.getTotalPages())}">
+                                <li class="page-item disabled" th:if="${currentPage==index}">
+                                    <a class="page-link" href="#" th:text="${index}"></a>
+                                </li>
+                                <li class="page-item" th:if="${currentPage!=index}">
+                                    <a class="page-link" href="#" th:text="${index}" th:href="@{/seller/product/list(page=${index},size=${size})}"></a>
+                                </li>
+                            </th:block>
+                            <li class="page-item" th:if="${currentPage}>=${productInfoPage.getTotalPages()}">
+                                <a class="page-link disabled" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:if="${currentPage}<${productInfoPage.getTotalPages()}">
+                                <a class="page-link" aria-label="Next" th:href="@{/seller/product/list(page=${currentPage} + 1,size=${size})}">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

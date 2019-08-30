@@ -1,82 +1,87 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>卖家订单信息</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<head th:replace="common/nav::commonHeader('卖家端订单列表')">
+    <title></title>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 column">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>订单id</th>
-                    <th>姓名</th>
-                    <th>手机号</th>
-                    <th>地址</th>
-                    <th>金额</th>
-                    <th>订单状态</th>
-                    <th>支付状态</th>
-                    <th>创建时间</th>
-                    <th colspan="2">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="orderDTO : ${orderDTOPage}">
-                    <td th:text="${orderDTO.orderId}"></td>
-                    <td th:text="${orderDTO.buyerName}"></td>
-                    <td th:text="${orderDTO.buyerPhone}"></td>
-                    <td th:text="${orderDTO.buyerAddress}"></td>
-                    <td th:text="${orderDTO.orderAmount}"></td>
-                    <td th:text="${orderDTO.getOrderStatusEnum().message}"></td>
-                    <td th:text="${orderDTO.getPayStatusEnum().message}"></td>
-                    <td th:text="${orderDTO.createTime}"></td>
-                    <td><a href="#" th:href="@{/seller/order/detail(orderId=${orderDTO.orderId})}">详情</a></td>
-                    <td th:if="${orderDTO.getOrderStatusEnum().message}=='新订单'">
-                        <a th:href="@{/seller/order/cancel(orderId=${orderDTO.orderId})}">取消</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <nav aria-label="Page navigation example">
-<!--                ${orderDTOPage.getTotalPages()}-->
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" th:if="${currentPage<=1}">
-                        <a class="page-link disabled" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item" th:if="${currentPage > 1}">
-                        <a class="page-link" aria-label="Previous" th:href="@{/seller/order/list(page=${currentPage} - 1,size=${size})}">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <!--/*@thymesVar id="orderDTOPage" type="com.rui.order.dto.OrderDTO"*/-->
-                    <!--/*@thymesVar id="getTotalPages" type="templates.order"*/-->
-                    <th:block th:each="index : ${#numbers.sequence(1, orderDTOPage.getTotalPages())}">
-                        <li class="page-item disabled" th:if="${currentPage==index}">
-                            <a class="page-link" href="#" th:text="${index}"></a>
+<div id="wrapper" class="toggled" >
+<!--    边栏sidebar-->
+    <th:block th:include="common/nav::commonNav">
+    </th:block>
+<!--    主要内容content-->
+    <div id="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 column">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>订单id</th>
+                        <th>姓名</th>
+                        <th>手机号</th>
+                        <th>地址</th>
+                        <th>金额</th>
+                        <th>订单状态</th>
+                        <th>支付状态</th>
+                        <th>创建时间</th>
+                        <th colspan="2">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="orderDTO : ${orderDTOPage}">
+                        <td th:text="${orderDTO.orderId}"></td>
+                        <td th:text="${orderDTO.buyerName}"></td>
+                        <td th:text="${orderDTO.buyerPhone}"></td>
+                        <td th:text="${orderDTO.buyerAddress}"></td>
+                        <td th:text="${orderDTO.orderAmount}"></td>
+                        <td th:text="${orderDTO.getOrderStatusEnum().message}"></td>
+                        <td th:text="${orderDTO.getPayStatusEnum().message}"></td>
+                        <td th:text="${orderDTO.createTime}"></td>
+                        <td><a href="#" th:href="@{/seller/order/detail(orderId=${orderDTO.orderId})}">详情</a></td>
+                        <td th:if="${orderDTO.getOrderStatusEnum().message}=='新订单'">
+                            <a th:href="@{/seller/order/cancel(orderId=${orderDTO.orderId})}">取消</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation example">
+                    <!--                ${orderDTOPage.getTotalPages()}-->
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" th:if="${currentPage<=1}">
+                            <a class="page-link disabled" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
                         </li>
-                        <li class="page-item" th:if="${currentPage!=index}">
-                            <a class="page-link" href="#" th:text="${index}" th:href="@{/seller/order/list(page=${index},size=${size})}"></a>
+                        <li class="page-item" th:if="${currentPage > 1}">
+                            <a class="page-link" aria-label="Previous" th:href="@{/seller/order/list(page=${currentPage} - 1,size=${size})}">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
                         </li>
-                    </th:block>
-                    <li class="page-item" th:if="${currentPage}>=${orderDTOPage.getTotalPages()}">
-                        <a class="page-link disabled" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item" th:if="${currentPage}<${orderDTOPage.getTotalPages()}">
-                        <a class="page-link" aria-label="Next" th:href="@{/seller/order/list(page=${currentPage} + 1,size=${size})}">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+                        <!--/*@thymesVar id="orderDTOPage" type="com.rui.order.dto.OrderDTO"*/-->
+                        <!--/*@thymesVar id="getTotalPages" type="templates.order"*/-->
+                        <th:block th:each="index : ${#numbers.sequence(1, orderDTOPage.getTotalPages())}">
+                            <li class="page-item disabled" th:if="${currentPage==index}">
+                                <a class="page-link" href="#" th:text="${index}"></a>
+                            </li>
+                            <li class="page-item" th:if="${currentPage!=index}">
+                                <a class="page-link" href="#" th:text="${index}" th:href="@{/seller/order/list(page=${index},size=${size})}"></a>
+                            </li>
+                        </th:block>
+                        <li class="page-item" th:if="${currentPage}>=${orderDTOPage.getTotalPages()}">
+                            <a class="page-link disabled" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:if="${currentPage}<${orderDTOPage.getTotalPages()}">
+                            <a class="page-link" aria-label="Next" th:href="@{/seller/order/list(page=${currentPage} + 1,size=${size})}">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
+    </div>
     </div>
 </div>
 </body>

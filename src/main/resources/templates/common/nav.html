@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head  th:fragment="commonHeader(title)">
+    <meta charset="UTF-8">
+    <!--/*@thymesVar id="title" type="title"*/-->
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!--    <link rel="stylesheet" th:href="@{/static/css/style.css}"/>-->
+
+</head>
+<body>
+<div th:fragment="commonNav">
+<!--    <div id="list-example" class="list-group">-->
+<!--        <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>-->
+<!--        <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>-->
+<!--        <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>-->
+<!--        <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>-->
+<!--    </div>-->
+<!--    <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">-->
+<!--        <h5 id="list-item-1">Item 1</h5>-->
+<!--        <h5 id="list-item-2">Item 2</h5>-->
+<!--        <h5 id="list-item-3">Item 3</h5>-->
+<!--        <h5 id="list-item-4">Item 4</h5>-->
+<!--    </div>-->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Messages</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">home</div>
+        <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">file</div>
+        <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">message</div>
+        <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">...</div>
+    </div>
+
+</div>
+
+<script>
+    $(function () {
+        $('#myTab li:last-child a').tab('show')
+    })
+</script>
+</body>
+</html>

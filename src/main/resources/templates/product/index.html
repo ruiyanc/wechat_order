@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/nav::commonHeader('卖家商品列表')">
+    <title></title>
+</head>
+<body>
+<div id="wrapper" class="toggled" >
+    <!--    边栏sidebar-->
+    <th:block th:include="common/nav::commonNav">
+    </th:block>
+    <!--    主要内容content-->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <form role="form" method="post" action="/seller/product/save">
+                <div class="form-group">
+                    <label>名称</label>
+                    <input name="productName" type="text" class="form-control" th:value="${productInfo.productName}">
+                </div>
+                <div class="form-group">
+                    <label>价格</label>
+                    <input name="productPrice" type="text" class="form-control" th:value="${productInfo.productPrice}">
+                </div>
+                <div class="form-group">
+                    <label>库存</label>
+                    <input name="productStock" type="number" class="form-control" th:value="${productInfo.productStock}">
+                </div>
+                <div class="form-group">
+                    <label>描述</label>
+                    <input name="productDescription" type="text" class="form-control" th:value="${productInfo.productDescription}">
+                </div>
+                <div class="form-group">
+                    <label>图片</label>
+                    <img width="100" height="100" src="" alt="看不清" th:src="${productInfo.productIcon}">
+                    <input name="productIcon" type="text" class="form-control" th:value="${productInfo.productIcon}">
+                </div>
+                <div class="form-group">
+                    <label>类目</label>
+                    <select name="categoryType" class="form-control">
+                        <th:block th:each="category : ${categoryList}">
+                            <option th:value="${category.categoryType}" th:text="${category.categoryName}"
+                            th:if="${productInfo.categoryType}==${category.categoryType}" selected></option>
+                            <option th:value="${category.categoryType}" th:text="${category.categoryName}"
+                                    th:if="${productInfo.categoryType}!=${category.categoryType}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <input hidden type="text" name="productId" th:value="${productInfo.productId}">
+                <button class="btn btn-primary" type="submit">提交</button>
+                <button class="btn btn-info" type="submit" onclick="history.back(-1)">返回</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
