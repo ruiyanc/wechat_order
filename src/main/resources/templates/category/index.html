@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/nav::commonHeader('卖家商品列表')">
+    <title></title>
+</head>
+<body>
+<div id="wrapper" class="toggled">
+    <!--    边栏sidebar-->
+    <th:block th:include="common/nav::commonNav">
+    </th:block>
+    <!--    主要内容content-->
+    <div id="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 column">
+                    <form role="form" method="post" action="/seller/category/save">
+                        <div class="form-group">
+                            <label>名字</label>
+                            <input name="categoryName" type="text" class="form-control"
+                                   th:value="${category?.categoryName}">
+                        </div>
+                        <div class="form-group">
+                            <label>type</label>
+                            <input name="categoryType" type="number" class="form-control"
+                                   th:value="${category?.categoryType}">
+                        </div>
+                        <input hidden type="text" name="categoryId" th:value="${category?.categoryId}">
+                        <button class="btn btn-primary" type="submit">提交</button>
+                        <button class="btn btn-info" type="submit" onclick="history.back(-1)">返回</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

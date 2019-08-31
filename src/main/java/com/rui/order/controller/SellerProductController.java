@@ -6,6 +6,7 @@ import com.rui.order.exception.SellException;
 import com.rui.order.form.ProductForm;
 import com.rui.order.service.CategoryService;
 import com.rui.order.service.ProductService;
+import com.rui.order.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -78,8 +80,10 @@ public class SellerProductController {
     @GetMapping("index")
     public ModelAndView index(@RequestParam(value = "productId", required = false) String productId,
                               Map<String, Object> map) {
+        ProductInfo productInfo = new ProductInfo();
+        productInfo.setProductName(null);
         if (!StringUtils.isEmpty(productId)) {
-            ProductInfo productInfo = productService.findOne(productId);
+            productInfo = productService.findOne(productId);
             map.put("productInfo", productInfo);
         }
         //查询所有的类目
@@ -96,10 +100,17 @@ public class SellerProductController {
             map.put("url", "/seller/product/index");
             return new ModelAndView("common/error", map);
         }
-
+        ProductInfo productInfo = new ProductInfo();
+        productInfo.setCreateTime(new Date());
         try {
-            ProductInfo productInfo = productService.findOne(form.getProductId());
+            //如果productId为空,则是新增
+            if (!StringUtils.isEmpty(form.getProductId())) {
+                productInfo = productService.findOne(form.getProductId());
+            } else {
+                form.setProductId(KeyUtil.genUniqueKey());
+            }
             BeanUtils.copyProperties(form, productInfo);
+            productInfo.setUpdateTime(new Date());
             productService.save(productInfo);
         } catch (SellException e) {
             map.put("msg", e.getMessage());

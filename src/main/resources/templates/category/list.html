@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>卖家订单详情</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}"/>
+</head>
+<body>
+<div id="wrapper" class="toggled" >
+    <!--    边栏sidebar-->
+    <th:block th:include="common/nav::commonNav">
+    </th:block>
+    <div id="page-content">
+        <div class="container">
+    <div class="row">
+        <div class="col-md-12 column">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>类目id</th>
+                    <th>名字</th>
+                    <th>type</th>
+                    <th>创建时间</th>
+                    <th>修改时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="category : ${categoryList}">
+                <tr>
+                    <td th:text="${category.categoryId}"></td>
+                    <td th:text="${category.categoryName}"></td>
+                    <td th:text="${category.categoryType}"></td>
+                    <td th:text="${category.createTime}"></td>
+                    <td th:text="${category.updateTime}"></td>
+                    <td><a href="#" th:href="@{/seller/category/index(categoryId=${category.categoryId})}">修改</a></td>
+                </tr>
+                </th:block>
+                </tbody>
+            </table>
+            <a href="#" onclick="history.back(-1)" class="btn btn-info btn-lg" role="button" aria-pressed="true">返回</a>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+</body>

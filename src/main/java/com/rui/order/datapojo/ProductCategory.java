@@ -13,7 +13,7 @@ import java.util.Date;
 public class ProductCategory {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Integer categoryId;
     /** 类目名字*/
