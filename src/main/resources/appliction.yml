@@ -1,6 +1,8 @@
 wechat:
   mpAppId: wx14b77de8da68c7eb
   mpAppSecret: bf95549de667f48a90235386cc1c5114
+  openAppId: 0000
+  openAppSecret: 000000
   mchId: 00000000
   mchKey: 85w15dw5111w5da1wd5
   keyPath: /var/weixin_cert/.
