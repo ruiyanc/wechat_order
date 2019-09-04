@@ -12,9 +12,7 @@ import com.rui.order.enums.ResultEnum;
 import com.rui.order.exception.SellException;
 import com.rui.order.repository.OrderDetailRepository;
 import com.rui.order.repository.OrderMasterRepository;
-import com.rui.order.service.OrderService;
-import com.rui.order.service.PayService;
-import com.rui.order.service.ProductService;
+import com.rui.order.service.*;
 import com.rui.order.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -28,7 +26,6 @@ import org.springframework.util.CollectionUtils;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +42,10 @@ public class OrderServiceImpl implements OrderService {
     private OrderMasterRepository orderMasterRepository;
     @Autowired
     private PayService payService;
+    @Autowired
+    private PushMessageService pushMessageService;
+    @Autowired
+    private WebSocket webSocket;
 
     @Override
     @Transactional
@@ -77,11 +78,16 @@ public class OrderServiceImpl implements OrderService {
         orderMaster.setCreateTime(new Date());
         orderMaster.setUpdateTime(new Date());
         orderMasterRepository.save(orderMaster);
+
         //4.扣库存
         List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
                 .map(e -> new CartDTO(e.getProductId(), e.getProductQuantity()))
                 .collect(Collectors.toList());
         productService.decreaseStock(cartDTOList);
+
+        //发送websocket消息
+        webSocket.sendMessage("有新的订单");
+
         return orderDTO;
     }
 
@@ -162,6 +168,9 @@ public class OrderServiceImpl implements OrderService {
             log.error("[完结订单]更新失败,orderMaster={}", orderMaster);
             throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
         }
+        //推送微信模板消息
+        pushMessageService.orderStatus(orderDTO);
+
         return orderDTO;
     }
 

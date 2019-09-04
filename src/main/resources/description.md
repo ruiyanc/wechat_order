@@ -10,3 +10,9 @@
     * th:value="${result?.data?.menuName}"
 5. JPA2.0 id字段自增
     * @GeneratedValue(strategy = GenerationType.IDENTITY)
+6.redis缓存
+    * @CacheConfig全局配置缓存
+    * @Cacheable(cacheNames, key, condition, unless):运行一次缓存后不再运行
+        * key默认为传参,condition为判断传参是否符合条件,unless为判断返回结果是否符合
+    * @CachePut():返回数据类型一致才能更新
+    * @CacheEvict():清除缓存,每一次都运行

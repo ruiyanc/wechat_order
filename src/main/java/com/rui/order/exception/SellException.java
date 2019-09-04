@@ -1,7 +1,9 @@
 package com.rui.order.exception;
 
 import com.rui.order.enums.ResultEnum;
+import lombok.Getter;
 
+@Getter
 public class SellException extends RuntimeException{
     private Integer code;
 

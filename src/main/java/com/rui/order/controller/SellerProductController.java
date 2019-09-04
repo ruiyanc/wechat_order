@@ -10,6 +10,10 @@ import com.rui.order.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +35,7 @@ import java.util.Objects;
 @Controller
 @Slf4j
 @RequestMapping("seller/product")
+@CacheConfig(cacheNames = "product")
 public class SellerProductController {
     @Autowired
     private ProductService productService;
@@ -50,24 +55,11 @@ public class SellerProductController {
     }
 
     @RequestMapping("on_sale")
+    @CacheEvict(key = "123")
     public ModelAndView onSale(@RequestParam("productId") String productId,
                                Map<String, Object> map) {
         try {
             productService.onSale(productId);
-        } catch (SellException e) {
-            map.put("msg", e.getMessage());
-            map.put("url", "/seller/product/list");
-            return new ModelAndView("common/error", map);
-        }
-        map.put("url", "/seller/product/list");
-        return new ModelAndView("common/success", map);
-    }
-
-    @RequestMapping("off_sale")
-    public ModelAndView offSale(@RequestParam("productId") String productId,
-                               Map<String, Object> map) {
-        try {
-            productService.offSale(productId);
         } catch (SellException e) {
             map.put("msg", e.getMessage());
             map.put("url", "/seller/product/list");
@@ -92,7 +84,24 @@ public class SellerProductController {
         return new ModelAndView("product/index", map);
     }
 
+    @RequestMapping("off_sale")
+    @CacheEvict(key = "123")
+    public ModelAndView offSale(@RequestParam("productId") String productId,
+                                Map<String, Object> map) {
+        try {
+            productService.offSale(productId);
+        } catch (SellException e) {
+            map.put("msg", e.getMessage());
+            map.put("url", "/seller/product/list");
+            return new ModelAndView("common/error", map);
+        }
+        map.put("url", "/seller/product/list");
+        return new ModelAndView("common/success", map);
+    }
+
     @PostMapping("save")
+//    @CachePut(cacheNames = "product", key = "123")返回数据一致才能更新,key默认为参数
+    @CacheEvict(cacheNames = "product", key = "123")
     public ModelAndView save(@Valid ProductForm form, BindingResult bindingResult,
                              Map<String, Object> map) {
         if (bindingResult.hasErrors()) {

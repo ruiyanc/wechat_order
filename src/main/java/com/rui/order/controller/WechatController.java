@@ -29,7 +29,6 @@ public class WechatController {
         WxMpService wxMpService = new WxMpServiceImpl();
         //2.调用方法
         String url = "http://yanrui.mynatapp.cc/wechat/userInfo";
-//        String url = "http://localhost:8080/wechat/userInfo";
         String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_BASE, returnUrl);
         return "redirect:" + redirectUrl;
     }
@@ -51,7 +50,6 @@ public class WechatController {
     @GetMapping("qrauthorize")
     public String qrauthorize(@RequestParam("returnUrl") String returnUrl) {
         String url = "http://yanrui.mynatapp.cc/wechat/qrUserInfo";
-//        String url = "http://localhost:8080/wechat/qrUserInfo";
         String redirectUrl = wxOpenService.buildQrConnectUrl(url, WxConsts.QRCONNECT_SCOPE_SNSAPI_LOGIN, returnUrl);
         return "redirect:" + redirectUrl;
     }
